@@ -48,9 +48,10 @@ public class Sender {
              */
             session = connection.createSession(Boolean.FALSE,
                     Session.AUTO_ACKNOWLEDGE);
-            destination = session.createQueue("first-queue");
+            //destination = session.createQueue("first-queue");
+            Topic topic = session.createTopic("topic-queue");
             //得到消息生成者【发送者】
-            producer = session.createProducer(destination);
+            producer = session.createProducer(topic);
             // 设置不持久化，此处学习，实际根据项目决定
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
             //构造消息，此处写死，项目就是参数，或者方法获取

@@ -28,9 +28,11 @@ public class Receiver {
             connection.start();
             //获取操作连接
             session = connection.createSession(Boolean.FALSE,
-                    Session.CLIENT_ACKNOWLEDGE);
-            destination = session.createQueue("first-queue");
-            consumer = session.createConsumer(destination);
+                    Session.AUTO_ACKNOWLEDGE);
+            //destination = session.createQueue("first-queue");
+            //topic 为一对多 因为正常情况下我们的topic消息不会再服务器持久化，所以要先打开消费者，再打开生产者，
+            Topic topic = session.createTopic("topic-queue");
+            consumer = session.createConsumer(topic);
             /*consumer.setMessageListener(new MessageListener() {
                 @Override
                 public void onMessage(Message message) {
@@ -46,12 +48,12 @@ public class Receiver {
                 }
             });*/
             int a = 0;
-            while (a < 3){
+            while (true){
                 //设置接收者接收消息的时间，为了便于测试，这里谁定为100s
                 TextMessage message = (TextMessage) consumer.receive(10000);
                 if(null != message){
                     System.out.println("收到消息" + message.getText());
-                    message.acknowledge();
+                    //message.acknowledge(); //如果是客户端确认,必须调用message.acknowledge()方法.
                 }else {
                     System.out.println("kong");
                     break;
