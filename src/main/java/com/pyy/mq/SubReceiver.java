@@ -4,7 +4,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class Receiver {
+public class SubReceiver {
+
     public static void main(String[] args){
         // ConnectionFactory ：连接工厂，JMS 用它创建连接
         ConnectionFactory connectionFactory;
@@ -16,7 +17,6 @@ public class Receiver {
         Destination destination;
         //消费者，消息接收者
         MessageConsumer consumer;
-        MessageConsumer consumer1;
         connectionFactory = new ActiveMQConnectionFactory(
                 ActiveMQConnectionFactory.DEFAULT_USER,
                 ActiveMQConnectionFactory.DEFAULT_PASSWORD,
@@ -30,11 +30,10 @@ public class Receiver {
             //获取操作连接
             session = connection.createSession(Boolean.FALSE,
                     Session.AUTO_ACKNOWLEDGE);
-            destination = session.createQueue("first-queue");
+            destination = session.createQueue("test-sub");
             //topic 为一对多 因为正常情况下我们的topic消息不会再服务器持久化，所以要先打开消费者，再打开生产者，
             //Topic topic = session.createTopic("topic-queue");
             consumer = session.createConsumer(destination);
-            consumer1 = session.createConsumer(destination);
             consumer.setMessageListener(new MessageListener() {
                 @Override
                 public void onMessage(Message message) {
@@ -49,34 +48,6 @@ public class Receiver {
                     }
                 }
             });
-            consumer1.setMessageListener(new MessageListener() {
-                @Override
-                public void onMessage(Message message) {
-                    try {
-                        MqBean bean = (MqBean)((ObjectMessage)message).getObject();
-                        System.out.println(bean);
-                        if(null != message){
-                            System.out.println("1收到消息"+bean.getName());
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            /*int a = 0;
-            while (true){
-                //设置接收者接收消息的时间，为了便于测试，这里谁定为100s
-                TextMessage message = (TextMessage) consumer.receive(10000);
-                if(null != message){
-                    System.out.println("收到消息" + message.getText());
-                    //message.acknowledge(); //如果是客户端确认,必须调用message.acknowledge()方法.
-                }else {
-                    System.out.println("kong");
-                    break;
-                }
-                a++;
-            }*/
         }catch (Exception e){
             e.printStackTrace();
         }finally {

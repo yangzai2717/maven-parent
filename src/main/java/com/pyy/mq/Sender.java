@@ -6,7 +6,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms.*;
 
 public class Sender {
-    private static final int SENT_NUMBER= 5;
+    private static final int SENT_NUMBER= 100;
 
     public static void main(String[] args){
         //ConnectionFactory ：连接工厂，JMS 用它创建连接
@@ -48,22 +48,22 @@ public class Sender {
              */
             session = connection.createSession(Boolean.FALSE,
                     Session.AUTO_ACKNOWLEDGE);
-            //destination = session.createQueue("first-queue");
-            Topic topic = session.createTopic("topic-queue");
+            destination = session.createQueue("first-queue");
+            //Topic topic = session.createTopic("topic-queue");
             //得到消息生成者【发送者】
-            producer = session.createProducer(topic);
+            producer = session.createProducer(destination);
             // 设置不持久化，此处学习，实际根据项目决定
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
             //构造消息，此处写死，项目就是参数，或者方法获取
-            sendMessage(session,producer);
-            /*MqBean bean = new MqBean();
+            //sendMessage(session,producer);
+            MqBean bean = new MqBean();
             bean.setAge(13);
             for(int i=0;i<100;i++) {
                 bean.setName("小黄" + i);
                 producer.send(session.createObjectMessage(bean));
             }
             producer.close();
-            System.out.println("消费者结束");*/
+            System.out.println("消费者结束");
         }catch (Exception e){
             e.printStackTrace();
         }
