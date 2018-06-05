@@ -1,0 +1,12 @@
+{
+  "object":[
+    {
+      "id":"id1",
+      "class":"com.pyy.domain.User"
+    },
+    {
+      "id":"id2",
+      "class":"com.pyy.domain.Bean"
+    }
+  ]
+}
