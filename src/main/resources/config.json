@@ -1,5 +1,5 @@
 {
-  "object":[
+  "objects":[
     {
       "id":"id1",
       "class":"com.pyy.domain.User"

@@ -7,6 +7,7 @@ import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ObjectPool {
@@ -27,6 +28,36 @@ public class ObjectPool {
 
     // 根据指定的JSON配置文件来初始化对象池
     public static ObjectPool init(String config){
+        try {
+            JSONArray objects = getObjects(config);
+            ObjectPool pool = new ObjectPool(new HashMap<String, Object>());
+            if(objects != null && objects.size() != 0){
+                for(int i=0; i < objects.size(); i++){
+                    JSONObject object = objects.getJSONObject(i);
+                    if(object == null || object.size() == 0){
+                        continue;
+                    }
+                    String id = object.getString("id");
+                    String className = object.getString("class");
+
+                    pool.putObject(id, getInstence(className));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
+    }
+
+    public Object getObject(String id){
+        return pool.get(id);
+    }
+
+    public void putObject(String id, Object object){
+        pool.put(id, object);
+    }
+
+    public void clear(){
+        pool.clear();
     }
 }
