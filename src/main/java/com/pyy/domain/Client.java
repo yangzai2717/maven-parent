@@ -12,7 +12,7 @@ import java.util.Properties;
 public class Client {
 
     @Test
-    public void client(){
+    public void client() throws Exception{
         String str = "{\n" +
                 "  \"objects\":[\n" +
                 "    {\n" +
@@ -25,6 +25,8 @@ public class Client {
                 "    }\n" +
                 "  ]\n" +
                 "}";
+        Properties prop = new Properties();
+        prop.load(this.getClass().getResourceAsStream("/config.json"));
         ObjectPool pool = ObjectPool.init("config.json");
         User user = (User)pool.getObject("id1");
         System.out.println(user.toString());
