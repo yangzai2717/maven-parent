@@ -1,0 +1,54 @@
+{
+  "objects":[
+    {
+      "id":"id1",
+      "class":"com.pyy.domain.User",
+      "fields":[
+        {
+          "name":"id",
+          "value":101
+        },
+        {
+          "name":"name",
+          "value":"pyy"
+        },
+        {
+          "name":"password",
+          "value":"qofalkfgaklg"
+        }
+      ]
+    },
+    {
+      "id": "id2",
+      "class": "com.pyy.domain.Bean",
+      "fields": [
+        {
+          "name": "usefull",
+          "value": true
+        },
+        {
+          "name": "rate",
+          "value": 3.14
+        },
+        {
+          "name": "name",
+          "value": "bean-name"
+        }
+      ]
+    },
+    {
+      "id": "id3",
+      "class": "com.pyy.domain.ComplexBean",
+      "fields": [
+        {
+          "name": "name",
+          "value": "complex-bean-name"
+        },
+        {
+          "name": "refBean",
+          "ref": "id2"
+        }
+      ]
+    }
+  ]
+}
