@@ -25,8 +25,8 @@ public class Client {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-        Properties prop = new Properties();
-        prop.load(this.getClass().getResourceAsStream("/config.json"));
+        /*Properties prop = new Properties();
+        prop.load(this.getClass().getResourceAsStream("/config.json"));*/
         ObjectPool pool = ObjectPool.init("config.json");
         User user = (User)pool.getObject("id1");
         System.out.println(user.toString());

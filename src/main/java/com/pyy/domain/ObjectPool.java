@@ -43,6 +43,7 @@ public class ObjectPool {
                     pool.putObject(id, getInstence(className));
                 }
             }
+            return pool;
         }catch (Exception e){
             e.printStackTrace();
         }
