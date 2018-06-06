@@ -18,7 +18,7 @@ public class ObjectPool {
     }
 
     private static Object getInstence(String className) throws ClassNotFoundException,IllegalAccessException,InstantiationException{
-        return Class.forName(className).getInterfaces();
+        return Class.forName(className).newInstance();
     }
 
     private static JSONArray getObjects(String config) throws IOException{
