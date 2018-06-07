@@ -26,4 +26,11 @@ public class ComplexBean {
     public void setRefBean(Bean refBean) {
         this.refBean = refBean;
     }
+
+    public String toString() {
+        return "ComplexBean{" +
+                "name='" + name + '\'' +
+                ", refBean=" + refBean +
+                '}';
+    }
 }

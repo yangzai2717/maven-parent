@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Auther: 庞洋洋
@@ -66,7 +67,50 @@ public class ObjectPool1 {
         return targetObject;
     }
 
+    // 创建一个对象池的实例(保证是多线程安全的)
+    private static void initSingletonPool(){
+        if(OBJECTPOOL1 == null){
+            synchronized (ObjectPool1.class){
+                if(OBJECTPOOL1 == null){
+                    OBJECTPOOL1 = new ObjectPool1(new ConcurrentHashMap<String, Object>());
+                }
+            }
+        }
+    }
+
+    // 根据指定的JSON配置文件来初始化对象池
+    public static ObjectPool1 init(String config){
+        // 初始化pool
+        initSingletonPool();
+
+        try {
+            JSONArray objects = getObjects(config);
+            for (int i = 0; objects != null && i < objects.size(); i++) {
+                JSONObject object = objects.getJSONObject(i);
+                if(object == null || object.size() == 0){
+                    continue;
+                }
+                String id = object.getString("id");
+                String className = object.getString("class");
+
+                // 初始化bean并放入池中
+                OBJECTPOOL1.putObject(id,getInstance(className,object.getJSONArray("fields")));
+            }
+            return OBJECTPOOL1;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public Object getObject(String id){
-       return pool.get("id");
+       return pool.get(id);
+    }
+
+    public void putObject(String id, Object object){
+        pool.put(id, object);
+    }
+
+    public void clear(){
+        pool.clear();
     }
 }
