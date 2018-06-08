@@ -1,5 +1,7 @@
 package com.pyy.domain;
 
+import java.io.Serializable;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 
 /**
@@ -7,10 +9,16 @@ import java.math.BigDecimal;
  * @Date: 2018/6/5 17:46
  * @Description:
  */
-public class Bean {
+public class Bean implements Serializable{
     private Boolean usefull;
-    private BigDecimal rate;
+    private Double rate;
     private String name;
+
+    public Bean(Boolean usefull, Double rate, String name){
+        this.usefull = usefull;
+        this.rate = rate;
+        this.name = name;
+    }
 
     public Boolean getUsefull() {
         return usefull;
@@ -20,11 +28,11 @@ public class Bean {
         this.usefull = usefull;
     }
 
-    public BigDecimal getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 
