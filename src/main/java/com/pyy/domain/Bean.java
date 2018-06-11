@@ -1,8 +1,11 @@
 package com.pyy.domain;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther: 庞洋洋
@@ -18,6 +21,15 @@ public class Bean implements Serializable{
         this.usefull = usefull;
         this.rate = rate;
         this.name = name;
+    }
+    public Bean(){
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        List<String> list = new ArrayList<String>();
+        list.add("bean1");
+        list.add("bean2");
+        return list;
     }
 
     public Boolean getUsefull() {

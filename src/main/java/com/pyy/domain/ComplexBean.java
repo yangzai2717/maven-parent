@@ -1,15 +1,27 @@
 package com.pyy.domain;
 
+import java.io.Serializable;
+
 /**
  * @Auther: 庞洋洋
  * @Date: 2018/6/6 17:29
  * @Description:
  */
-public class ComplexBean {
+public class ComplexBean implements Serializable{
 
-    private String name;
+    private transient int a;
 
-    private Bean refBean;
+    private transient String name;
+
+    private transient Bean refBean;
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
 
     public String getName() {
         return name;
@@ -29,7 +41,8 @@ public class ComplexBean {
 
     public String toString() {
         return "ComplexBean{" +
-                "name='" + name + '\'' +
+                "a=" + a + "\'" +
+                ", name='" + name + '\'' +
                 ", refBean=" + refBean +
                 '}';
     }
