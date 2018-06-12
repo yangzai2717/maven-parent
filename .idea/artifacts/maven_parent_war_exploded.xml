@@ -33,7 +33,7 @@
           <element id="library" level="project" name="Maven: commons-net:commons-net:3.1" />
           <element id="library" level="project" name="Maven: org.jasypt:jasypt:1.9.0" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.7" />
-          <element id="library" level="project" name="Maven: com.google.guava:guava:18.0" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:19.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
