@@ -17,9 +17,9 @@ public class DoubleSort {
         int i = 0;
         int j = 0;
         for(int t = 0; t < threesize; t++){
-            if(i >= onesize){
+            if(i >= onesize){   //如果第一个数组比较完了，直接把第二个数组后面的数，排序到后面
                 three[t] = two[j++];
-            }else if(j >= twosize){
+            }else if(j >= twosize){  //如果第二个数组比较完了，直接把第一个数组后面的数，排序到后面
                 three[t] = one[i++];
             }else{
                 if(one[i] <= two[j]){
