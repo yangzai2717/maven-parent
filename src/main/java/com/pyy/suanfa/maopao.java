@@ -104,7 +104,7 @@ public class maopao {
         int size = numbers.length;
         int temp = 0;
         int j = 0;
-        for(int i=0; i<size -1; i++){
+        for(int i=0; i<size ; i++){
             temp = numbers[i];
             for( j = i; j > 0 && temp < numbers[j - 1]; j--){
                 numbers[j] = numbers[j-1];
@@ -151,8 +151,8 @@ public class maopao {
         //bubbleSort(nums);
         //quick(nums);
         //chooseSort(nums);
-//        insertSort(nums);
-        shellSort(nums);
+        insertSort(nums);
+        //shellSort(nums);
         long endTime = System.currentTimeMillis();
         System.out.println(Arrays.deepToString(nums));
     }

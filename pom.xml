@@ -112,7 +112,35 @@
 			<artifactId>guava</artifactId>
 			<version>19.0</version>
 		</dependency>
-    </dependencies>
+
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.5.4-beta</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha1</version>
+		</dependency>
+		<!--<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>-->
+		<!--<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.0.5.RELEASE</version>
+		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>4.3.4.RELEASE</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<resources>
