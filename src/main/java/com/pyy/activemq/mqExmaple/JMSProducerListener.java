@@ -35,16 +35,17 @@ public class JMSProducerListener {
             destination = session.createQueue("hello"); //创建一个helloworld的消息队列
             messageProducer = session.createProducer(destination); //创建消息生产者
             sendMessage(session, messageProducer);
+            session.commit();
         } catch (Exception e){
             e.printStackTrace();
         } finally {
-            /*if (connection != null){
+            if (connection != null){
                 try {
                     connection.close();
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
-            }*/
+            }
         }
     }
 

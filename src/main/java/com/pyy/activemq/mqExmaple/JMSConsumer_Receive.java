@@ -18,9 +18,6 @@ public class JMSConsumer_Receive {
 
     public static void main(String[] args) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 ConnectionFactory connectionFactory;
                 Connection connection = null;
                 Session session;
@@ -32,7 +29,7 @@ public class JMSConsumer_Receive {
                 try {
                     connection = connectionFactory.createConnection();
                     connection.start();
-                    session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
+                    session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
                     destination = session.createQueue("helloworld");
                     messageConsumer = session.createConsumer(destination);
                     while (true){
@@ -46,14 +43,12 @@ public class JMSConsumer_Receive {
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-                    /*try {
+                    try {
                         connection.close();
                     } catch (JMSException e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }
-            }
-        }).start();
 
 
     }

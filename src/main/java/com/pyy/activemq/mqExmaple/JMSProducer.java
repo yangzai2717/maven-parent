@@ -19,10 +19,6 @@ public class JMSProducer {
 
     public static void main(String[] args) {
 
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 ConnectionFactory connectionFactory; //连接工厂
                 Connection connection = null; //连接
                 Session session; //会话，接受或者发送消息的线程
@@ -39,20 +35,18 @@ public class JMSProducer {
                     destination = session.createQueue("helloworld"); //创建一个helloworld的消息队列
                     messageProducer = session.createProducer(destination); //创建消息生产者
                     sendMessage(session, messageProducer);
+                    session.commit();
                 } catch (Exception e){
                     e.printStackTrace();
                 } finally {
-                    /*if (connection != null){
+                    if (connection != null){
                         try {
                             connection.close();
                         } catch (JMSException e) {
                             e.printStackTrace();
                         }
-                    }*/
+                    }
                 }
-            }
-        }).start();
-
     }
 
     /**

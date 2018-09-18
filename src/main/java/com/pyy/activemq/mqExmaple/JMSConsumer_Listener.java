@@ -28,7 +28,7 @@ public class JMSConsumer_Listener {
         try {
             connection = connectionFactory.createConnection();
             connection.start();
-            session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
+            session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
             destination = session.createQueue("hello");
             messageConsumer = session.createConsumer(destination);
             JMSConsumer_Listener jmsConsumer_listener = new JMSConsumer_Listener();
@@ -36,11 +36,11 @@ public class JMSConsumer_Listener {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            /*try {
+            try {
                 connection.close();
             } catch (JMSException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
     }
 
