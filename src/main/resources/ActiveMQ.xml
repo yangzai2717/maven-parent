@@ -22,6 +22,22 @@
         <property name = "brokerURL" value="failover://tcp://192.168.46.201:51511" />
         <property name="userName" value="admin"/>
         <property name="password" value="admin"/>
+        <property name="redeliveryPolicy" ref="activeMqRedeliveryPolicy"/>
+    </bean>
+
+    <bean id="activeMqRedeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
+        <!--是否在每次尝试重新发送失败后,增长这个等待时间 -->
+        <property name="useExponentialBackOff" value="true"/>
+        <!--重发次数,默认为6次   这里设置为1次 -->
+        <property name="maximumRedeliveries" value="1"/>
+        <!--重发时间间隔,默认为1秒 -->
+        <property name="initialRedeliveryDelay" value="5000"/>
+        <!--第一次失败后重新发送之前等待500毫秒,第二次失败再等待500 * 2毫秒,这里的2就是value -->
+        <property name="backOffMultiplier" value="2"/>
+        <!--最大传送延迟，只在useExponentialBackOff为true时有效（V5.5），假设首次重连间隔为10ms，倍数为2，那么第二次重连时间间隔为 20ms，
+         第三次重连时间间隔为40ms，当重连时间间隔大的最大重连时间间隔时，以后每次重连时间间隔都为最大重连时间间隔。 -->
+        <property name="maximumRedeliveryDelay" value="5000"/>
+        <property name="destination" ref="demoQueueDestination"/>
     </bean>
 
     <!-- 配置JMS连接工厂 -->
@@ -39,7 +55,7 @@
     <bean id="demoQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- 设置消息队列的名字 -->
         <constructor-arg>
-            <value>fendo</value>
+            <value>test.queue</value>
         </constructor-arg>
     </bean>
 
@@ -63,6 +79,7 @@
         <constructor-arg ref="connectionFactory" />
         <!-- pub/sub模型（发布/订阅） -->
         <property name="pubSubDomain" value="true" />
+        <property name="sessionAcknowledgeMode" value="4"/>
     </bean>
     <!--Spring JmsTemplate 的消息生产者 end-->
 
@@ -73,11 +90,17 @@
     <bean id="topicReceiver1" class="com.fendo.consumer.topic.TopicReceiver1"/>
     <bean id="topicReceiver2" class="com.fendo.consumer.topic.TopicReceiver2"/>
 
+    <!-- 定义Queue监听器  可以测试消息重发 机制 -->
+    <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="client">
+        <jms:listener destination="test.queue" ref="queueReceiver1"/>
+        <!--<jms:listener destination="test.queue" ref="queueReceiver2"/>-->
+    </jms:listener-container>
+
     <!-- 定义Queue监听器 -->
-    <jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+    <!--<jms:listener-container destination-type="queue" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
         <jms:listener destination="test.queue" ref="queueReceiver1"/>
         <jms:listener destination="test.queue" ref="queueReceiver2"/>
-    </jms:listener-container>
+    </jms:listener-container>-->
 
     <!-- 定义Topic监听器 -->
     <jms:listener-container destination-type="topic" container-type="default" connection-factory="connectionFactory" acknowledge="auto">
@@ -88,7 +111,7 @@
     <!-- 消息消费者 end -->
 
     <!-- 配置消息队列监听者（Queue） -->
-         <bean id="queueMessageListener" class="com.fendo.filter.QueueMessageListener" />
+    <bean id="queueMessageListener" class="com.fendo.filter.QueueMessageListener" />
 
     <!--  显示注入消息监听容器（Queue），配置连接工厂，监听的目标是demoQueueDestination，监听器是上面定义的监听器-->
 
