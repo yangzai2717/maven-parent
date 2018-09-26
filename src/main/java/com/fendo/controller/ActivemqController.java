@@ -28,7 +28,10 @@ public class ActivemqController {
     public String queueSender(@RequestParam("message") String message){
         String opt = "";
         try {
-            queueSender.send("test.queue", message);
+            for (int i = 0; i < 5; i++) {
+                queueSender.send("test.queue", message + i);
+            }
+            while (true){}
         } catch (Exception e){
             opt = e.getCause().toString();
         }

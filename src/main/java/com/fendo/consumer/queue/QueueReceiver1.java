@@ -18,8 +18,13 @@ public class QueueReceiver1 implements MessageListener{
 
     @Override
     public void onMessage(Message message) {
+        TextMessage tm = (TextMessage)message;
         try {
-            System.out.println("QueueReceiver1接收到消息:"+((TextMessage)message).getText());
+            if("hello2".equals(tm.getText())){
+                throw new RuntimeException("故意抛出异常");
+            }
+            tm.acknowledge();
+            System.out.println("QueueReceiver1接收到消息:"+tm.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }
